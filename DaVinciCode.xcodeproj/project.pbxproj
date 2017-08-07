@@ -15,6 +15,8 @@
 		ED472B1A1F359D3900C987FB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED472B181F359D3900C987FB /* LaunchScreen.storyboard */; };
 		ED472B251F359D3900C987FB /* DaVinciCodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED472B241F359D3900C987FB /* DaVinciCodeTests.swift */; };
 		ED472B301F359D3900C987FB /* DaVinciCodeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED472B2F1F359D3900C987FB /* DaVinciCodeUITests.swift */; };
+		ED51B6161F383C2F00007C0C /* SocketClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED51B6151F383C2F00007C0C /* SocketClient.swift */; };
+		ED51B6181F383F0000007C0C /* MainGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED51B6171F383F0000007C0C /* MainGameViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +52,8 @@
 		ED472B2B1F359D3900C987FB /* DaVinciCodeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DaVinciCodeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED472B2F1F359D3900C987FB /* DaVinciCodeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaVinciCodeUITests.swift; sourceTree = "<group>"; };
 		ED472B311F359D3900C987FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ED51B6151F383C2F00007C0C /* SocketClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketClient.swift; sourceTree = "<group>"; };
+		ED51B6171F383F0000007C0C /* MainGameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainGameViewController.swift; sourceTree = "<group>"; };
 		F044725AC5A2C9E71ED52D12 /* Pods-DaVinciCode.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DaVinciCode.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DaVinciCode/Pods-DaVinciCode.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -127,6 +131,8 @@
 				ED472B161F359D3900C987FB /* Assets.xcassets */,
 				ED472B181F359D3900C987FB /* LaunchScreen.storyboard */,
 				ED472B1B1F359D3900C987FB /* Info.plist */,
+				ED51B6151F383C2F00007C0C /* SocketClient.swift */,
+				ED51B6171F383F0000007C0C /* MainGameViewController.swift */,
 			);
 			path = DaVinciCode;
 			sourceTree = "<group>";
@@ -338,7 +344,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				ED472B121F359D3900C987FB /* ViewController.swift in Sources */,
+				ED51B6181F383F0000007C0C /* MainGameViewController.swift in Sources */,
 				ED472B101F359D3900C987FB /* AppDelegate.swift in Sources */,
+				ED51B6161F383C2F00007C0C /* SocketClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
