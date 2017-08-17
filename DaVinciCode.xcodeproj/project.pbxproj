@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		42F2314A216C341558F10F71 /* Pods_DaVinciCode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AEE821C5E698B8D37EFFB69 /* Pods_DaVinciCode.framework */; };
+		ED46A48C1F457872007B818B /* NumberChooseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED46A48B1F457872007B818B /* NumberChooseCollectionViewCell.swift */; };
 		ED472B101F359D3900C987FB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED472B0F1F359D3900C987FB /* AppDelegate.swift */; };
 		ED472B121F359D3900C987FB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED472B111F359D3900C987FB /* ViewController.swift */; };
 		ED472B151F359D3900C987FB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED472B131F359D3900C987FB /* Main.storyboard */; };
@@ -39,6 +40,7 @@
 /* Begin PBXFileReference section */
 		47B34CF99F5B118983D0718E /* Pods-DaVinciCode.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DaVinciCode.release.xcconfig"; path = "Pods/Target Support Files/Pods-DaVinciCode/Pods-DaVinciCode.release.xcconfig"; sourceTree = "<group>"; };
 		5AEE821C5E698B8D37EFFB69 /* Pods_DaVinciCode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DaVinciCode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ED46A48B1F457872007B818B /* NumberChooseCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberChooseCollectionViewCell.swift; sourceTree = "<group>"; };
 		ED472B0C1F359D3900C987FB /* DaVinciCode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DaVinciCode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED472B0F1F359D3900C987FB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ED472B111F359D3900C987FB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				ED472B1B1F359D3900C987FB /* Info.plist */,
 				ED51B6151F383C2F00007C0C /* SocketClient.swift */,
 				ED51B6171F383F0000007C0C /* MainGameViewController.swift */,
+				ED46A48B1F457872007B818B /* NumberChooseCollectionViewCell.swift */,
 			);
 			path = DaVinciCode;
 			sourceTree = "<group>";
@@ -345,6 +348,7 @@
 			files = (
 				ED472B121F359D3900C987FB /* ViewController.swift in Sources */,
 				ED51B6181F383F0000007C0C /* MainGameViewController.swift in Sources */,
+				ED46A48C1F457872007B818B /* NumberChooseCollectionViewCell.swift in Sources */,
 				ED472B101F359D3900C987FB /* AppDelegate.swift in Sources */,
 				ED51B6161F383C2F00007C0C /* SocketClient.swift in Sources */,
 			);

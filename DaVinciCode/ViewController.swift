@@ -28,11 +28,18 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+
         SocketClient.share.setUpUdp()
         SocketClient.share.receiveRoomBlock = {(host, port, name) in
             self.existRoomlable.isHidden = false
             self.joinBtn.isHidden = false
             self.existRoomlable.text = "已存在房间：\(name)"
+        }
+        SocketClient.share.noRoomBlock = {
+            DispatchQueue.main.async {
+                self.existRoomlable.isHidden = true
+                self.joinBtn.isHidden = true
+            }
         }
         
     }
@@ -47,12 +54,18 @@ class ViewController: UIViewController {
     
     @IBAction func createBtnClicked(_ sender: UIButton) {
         SocketClient.share.startUdp()
+        SocketClient.share.readyToAccept()
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let gameVC = storyboard.instantiateViewController(withIdentifier: "MainGameViewController") as! MainGameViewController
         self.show(gameVC, sender: nil)
     }
     
     @IBAction func joinBtnClicked(_ sender: UIButton) {
+        SocketClient.share.joinRoom()
+        SocketClient.share.role = .player
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let gameVC = storyboard.instantiateViewController(withIdentifier: "MainGameViewController") as! MainGameViewController
+        self.show(gameVC, sender: nil)
     }
 
 }
