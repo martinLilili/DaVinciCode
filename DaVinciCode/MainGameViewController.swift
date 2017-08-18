@@ -261,6 +261,8 @@ class MainGameViewController: UIViewController {
             } else {
                 self.showRemind(msg: "对手猜\(choosenNumber), 猜错了")
                 if self.pendingCard != nil {
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(MainGameViewController.cardTap(ges:)))
+                    self.pendingCard!.view.addGestureRecognizer(tap)
                     if SocketClient.share.role == .creator {
                         var inserted = false
                         for index in 0...self.playerArr.count-1 {
@@ -300,14 +302,19 @@ class MainGameViewController: UIViewController {
                 self.reloadPlayerView()
                 self.reloadCreatorView()
             }, completion: { (_) in
-                SocketClient.share.changeTurn()
+                if self.judgeResult() == .none {
+                    SocketClient.share.changeTurn()
+                } else if self.judgeResult() == SocketClient.share.role {
+                    self.showRemind(msg: "你输了")
+                } else {
+                    self.showRemind(msg: "你赢了")
+                }
             })
         }
         // Do any additional setup after loading the view.
     }
     
     func placedAllCard() {
-
         UIView.animate(withDuration: 3, animations: {
             self.reloadCreatorView()
         }) { (_) in
@@ -400,10 +407,31 @@ class MainGameViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
     @IBAction func backBtnClicked(_ sender: UIButton) {
         SocketClient.share.stopUdp()
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    func judgeResult() -> RoleType {
+        var hashide = false
+        for item in creatorArr {
+            if item.isHidden == true {
+               hashide = true
+            }
+        }
+        if !hashide {
+            return .creator
+        }
+        
+        for item in playerArr {
+            if item.isHidden == true {
+                hashide = true
+            }
+        }
+        if !hashide {
+            return .player
+        }
+        return .none
     }
 
     /*
@@ -565,7 +593,14 @@ extension MainGameViewController : UICollectionViewDelegate, UICollectionViewDat
                 self.reloadPlayerView()
                 self.reloadCreatorView()
             }, completion: { (_) in
-                SocketClient.share.changeTurn()
+                if self.judgeResult() == .none {
+                    SocketClient.share.changeTurn()
+                } else if self.judgeResult() == SocketClient.share.role {
+                    self.showRemind(msg: "你输了")
+                } else {
+                    self.showRemind(msg: "你赢了")
+                }
+                
             })
             collectionView.isHidden = true
         }
