@@ -149,7 +149,7 @@ class SocketClient: NSObject {
         }
         heartbeatTimer = DispatchSource.makeTimerSource(queue: socketQueue)
         
-        heartbeatTimer?.scheduleRepeating(deadline: .now() + pageStepTime, interval: pageStepTime)
+        heartbeatTimer?.schedule(deadline: .now() + pageStepTime, repeating: pageStepTime)
         heartbeatTimer?.setEventHandler {
             self.broadcaseUdp()
         }

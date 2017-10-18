@@ -444,7 +444,7 @@ class MainGameViewController: UIViewController {
     }
     */
     
-    func cardTap(ges : UITapGestureRecognizer) {
+    @objc func cardTap(ges : UITapGestureRecognizer) {
         if SocketClient.share.isYourTurn() {
             if SocketClient.share.role == .creator {
                 reloadPlayerView()
