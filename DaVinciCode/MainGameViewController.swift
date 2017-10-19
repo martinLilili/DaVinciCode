@@ -62,7 +62,18 @@ class CardModel {
 
 class MainGameViewController: UIViewController {
     
-    @IBOutlet weak var cardView: UIImageView!
+    @IBOutlet weak var blackCardView: UIImageView! {
+        didSet {
+            blackCardView.isUserInteractionEnabled = true
+        }
+    }
+    @IBOutlet weak var whiteCardView: UIImageView! {
+        didSet {
+            whiteCardView.layer.borderWidth = 1
+            whiteCardView.layer.borderColor = UIColor.black.cgColor
+            whiteCardView.isUserInteractionEnabled = true
+        }
+    }
     
     @IBOutlet weak var myName: UILabel!
 
@@ -86,6 +97,11 @@ class MainGameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        var tap = UITapGestureRecognizer(target: self, action: #selector(MainGameViewController.blackCardTap(ges:)))
+        blackCardView.addGestureRecognizer(tap)
+        tap = UITapGestureRecognizer(target: self, action: #selector(MainGameViewController.whiteCardTap(ges:)))
+        whiteCardView.addGestureRecognizer(tap)
 
         if SocketClient.share.role == .creator {
             remindLabel.text = "等待其他玩家加入。。。"
@@ -119,7 +135,7 @@ class MainGameViewController: UIViewController {
                 for item in newcreatorArr {
                     let card = CardModel()
                     card.serialNumber = item
-                    card.view.setFrame(frame: self.cardView.frame)
+                    card.view.setFrame(frame: self.blackCardView.frame)
                     card.view.tag = Int(item)
                     self.view.addSubview(card.view)
                     self.creatorArr.append(card)
@@ -132,7 +148,7 @@ class MainGameViewController: UIViewController {
                 for item in newplayerArr {
                     let card = CardModel()
                     card.serialNumber = item
-                    card.view.setFrame(frame: self.cardView.frame)
+                    card.view.setFrame(frame: self.blackCardView.frame)
                     card.view.tag = Int(item)
                     self.view.addSubview(card.view)
                     self.playerArr.append(card)
@@ -156,20 +172,37 @@ class MainGameViewController: UIViewController {
             }
         }
         
-        SocketClient.share.sendCardBlock = { (role, number) in
+        SocketClient.share.selectCardBlock = { (role, number) in
+            print("select card = \(number)")
             self.pendingCard = CardModel()
             self.pendingCard!.serialNumber = UInt32(number)
-            self.pendingCard!.view.setFrame(frame: self.cardView.frame)
+           
+            if number%2 == 1 {
+                self.pendingCard!.view.setFrame(frame: self.whiteCardView.frame)
+            } else {
+                self.pendingCard!.view.setFrame(frame: self.blackCardView.frame)
+            }
             self.pendingCard!.view.tag = number
             self.view.addSubview(self.pendingCard!.view)
             
             UIView.animate(withDuration: 2, animations: { 
                 if role == SocketClient.share.role {
                     self.pendingCard!.view.label.text = "\(self.pendingCard!.number())"
-                    self.pendingCard!.view.setFrame(frame: CGRect(x: self.cardView.frame.origin.x + 70, y: self.cardView.frame.origin.y + 10, width: 50, height: 80))
+                   
+                    if number%2 == 1 {
+
+                        self.pendingCard!.view.setFrame(frame: CGRect(x: self.whiteCardView.frame.origin.x - 70, y: self.whiteCardView.frame.origin.y + 10, width: 50, height: 80))
+                    } else {
+                        self.pendingCard!.view.setFrame(frame: CGRect(x: self.blackCardView.frame.origin.x + 70, y: self.blackCardView.frame.origin.y + 10, width: 50, height: 80))
+                    }
                 } else {
                     self.pendingCard!.view.label.text = ""
-                    self.pendingCard!.view.setFrame(frame: CGRect(x: self.cardView.frame.origin.x + 70, y: self.cardView.frame.origin.y - 10, width: 50, height: 80))
+                   
+                    if number%2 == 1 {
+                        self.pendingCard!.view.setFrame(frame: CGRect(x: self.whiteCardView.frame.origin.x - 70, y: self.whiteCardView.frame.origin.y - 10, width: 50, height: 80))
+                    } else {
+                        self.pendingCard!.view.setFrame(frame: CGRect(x: self.blackCardView.frame.origin.x + 70, y: self.blackCardView.frame.origin.y - 10, width: 50, height: 80))
+                    }
                 }
                 
                 self.pendingCard!.view.label.textColor = self.pendingCard!.labelColor()
@@ -180,7 +213,7 @@ class MainGameViewController: UIViewController {
             
         }
         
-        SocketClient.share.chooseCardBlock = { number in
+        SocketClient.share.chooseCardNumberBlock = { number in
             if SocketClient.share.role == .creator {
                 self.reloadCreatorView()
                 for card in self.creatorArr {
@@ -302,6 +335,12 @@ class MainGameViewController: UIViewController {
                 self.reloadPlayerView()
                 self.reloadCreatorView()
             }, completion: { (_) in
+                if SocketClient.share.blackArr.count == 0 {
+                    self.blackCardView.isHidden = true
+                }
+                if SocketClient.share.whiteArr.count == 0 {
+                    self.whiteCardView.isHidden = true
+                }
                 if self.judgeResult() == .none {
                     SocketClient.share.changeTurn()
                 } else if self.judgeResult() == SocketClient.share.role {
@@ -422,6 +461,7 @@ class MainGameViewController: UIViewController {
         if !hashide {
             return .creator
         }
+        hashide = false
         
         for item in playerArr {
             if item.isHidden == true {
@@ -445,7 +485,7 @@ class MainGameViewController: UIViewController {
     */
     
     @objc func cardTap(ges : UITapGestureRecognizer) {
-        if SocketClient.share.isYourTurn() {
+        if (SocketClient.share.isYourTurn() && pendingCard != nil) || (SocketClient.share.isYourTurn() && blackCardView.isHidden == true && whiteCardView.isHidden == true) {
             if SocketClient.share.role == .creator {
                 reloadPlayerView()
                 for card in playerArr {
@@ -477,6 +517,16 @@ class MainGameViewController: UIViewController {
         }
     }
 
+    @objc func blackCardTap(ges : UITapGestureRecognizer) {
+        if SocketClient.share.isYourTurn() && pendingCard == nil {
+            SocketClient.share.randomCard(color: true)
+        }
+    }
+    @objc func whiteCardTap(ges : UITapGestureRecognizer) {
+        if SocketClient.share.isYourTurn() && pendingCard == nil {
+            SocketClient.share.randomCard(color: false)
+        }
+    }
 }
 
 extension MainGameViewController : UICollectionViewDelegate, UICollectionViewDataSource {

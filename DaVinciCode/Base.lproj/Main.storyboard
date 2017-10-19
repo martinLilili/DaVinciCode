@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="khH-dg-OSZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="khH-dg-OSZ">
     <device id="retina4_7" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,7 +15,6 @@
             <objects>
                 <navigationController navigationBarHidden="YES" id="khH-dg-OSZ" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="CLN-2h-Ibs">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -39,7 +38,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DaVinciCode" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PRO-P4-6kY">
-                                <rect key="frame" x="230" y="60" width="207" height="28"/>
+                                <rect key="frame" x="230" y="40" width="207" height="28"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="207" id="g63-z9-iBH"/>
                                 </constraints>
@@ -48,7 +47,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y3i-wG-rIi">
-                                <rect key="frame" x="284" y="114" width="99" height="30"/>
+                                <rect key="frame" x="284" y="94" width="99" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="99" id="rJ7-aO-cvV"/>
                                 </constraints>
@@ -58,7 +57,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ewt-wD-Rif">
-                                <rect key="frame" x="276" y="160" width="114" height="30"/>
+                                <rect key="frame" x="276" y="140" width="114" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="114" id="7Hy-5b-Yun"/>
                                 </constraints>
@@ -68,7 +67,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="存在房间：" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iyr-fk-WEW">
-                                <rect key="frame" x="213" y="219" width="272" height="21"/>
+                                <rect key="frame" x="213" y="199" width="272" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="272" id="vCy-rI-h8O"/>
                                 </constraints>
@@ -77,7 +76,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JYO-Bo-sdh">
-                                <rect key="frame" x="274" y="258" width="119" height="30"/>
+                                <rect key="frame" x="274" y="238" width="119" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="119" id="59t-Vh-n3a"/>
                                 </constraints>
@@ -207,11 +206,20 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KTx-hu-R4r">
+                                <rect key="frame" x="597" y="148" width="50" height="80"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="0f4-AR-ZzM"/>
+                                    <constraint firstAttribute="height" constant="80" id="Obs-9D-HEa"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="lOp-My-N2B" firstAttribute="centerX" secondItem="fDQ-mY-Ifk" secondAttribute="centerX" id="1ai-Pw-U2M"/>
                             <constraint firstItem="k9G-Fd-oJd" firstAttribute="leading" secondItem="5wx-SJ-M3M" secondAttribute="leadingMargin" id="4LK-zk-vwn"/>
+                            <constraint firstAttribute="trailing" secondItem="KTx-hu-R4r" secondAttribute="trailing" constant="20" id="84Q-ah-eTA"/>
                             <constraint firstItem="Amr-29-g7s" firstAttribute="top" secondItem="5wx-SJ-M3M" secondAttribute="top" id="Cp3-B8-4S6"/>
                             <constraint firstItem="TEU-dJ-FW7" firstAttribute="top" secondItem="Amr-29-g7s" secondAttribute="top" id="Pwu-yX-vA6"/>
                             <constraint firstItem="OAP-Nc-uu4" firstAttribute="centerX" secondItem="lOp-My-N2B" secondAttribute="centerX" id="TMk-Pb-q3e"/>
@@ -220,16 +228,18 @@
                             <constraint firstItem="OAP-Nc-uu4" firstAttribute="top" secondItem="lOp-My-N2B" secondAttribute="bottom" constant="8" symbolic="YES" id="kSH-TZ-mJS"/>
                             <constraint firstItem="lOp-My-N2B" firstAttribute="centerY" secondItem="k9G-Fd-oJd" secondAttribute="centerY" id="muM-xo-1fq"/>
                             <constraint firstItem="k9G-Fd-oJd" firstAttribute="centerY" secondItem="5wx-SJ-M3M" secondAttribute="centerY" id="nkQ-jn-aVG"/>
+                            <constraint firstItem="KTx-hu-R4r" firstAttribute="centerY" secondItem="k9G-Fd-oJd" secondAttribute="centerY" id="t9d-Zd-AUk"/>
                             <constraint firstItem="lOp-My-N2B" firstAttribute="centerX" secondItem="TEU-dJ-FW7" secondAttribute="centerX" id="tEJ-OP-al0"/>
                             <constraint firstItem="fDQ-mY-Ifk" firstAttribute="centerX" secondItem="5wx-SJ-M3M" secondAttribute="centerX" id="wRR-hX-4ZI"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="cardView" destination="k9G-Fd-oJd" id="5s1-Yp-ENv"/>
+                        <outlet property="blackCardView" destination="k9G-Fd-oJd" id="bsb-gb-XDW"/>
                         <outlet property="collectionView" destination="OAP-Nc-uu4" id="WxB-rh-psv"/>
                         <outlet property="myName" destination="fDQ-mY-Ifk" id="Krd-Zx-HSQ"/>
                         <outlet property="playerName" destination="TEU-dJ-FW7" id="ELN-2d-lNM"/>
                         <outlet property="remindLabel" destination="lOp-My-N2B" id="zkh-bo-5rE"/>
+                        <outlet property="whiteCardView" destination="KTx-hu-R4r" id="JPy-4R-TAl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mfy-io-GS8" userLabel="First Responder" sceneMemberID="firstResponder"/>

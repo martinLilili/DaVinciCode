@@ -41,6 +41,8 @@ class SocketClient: NSObject {
     var steps = [[String : Any]]()
     
     var allArr : [UInt32] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ,13 ,14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+    var blackArr : [UInt32] = []
+    var whiteArr : [UInt32] = []
     
     var joinedPlayer : String? = nil
     
@@ -64,7 +66,9 @@ class SocketClient: NSObject {
     
     var sendCardBlock : ((_ role : RoleType, _ number : Int) -> Void)? = nil
     
-    var chooseCardBlock : ((_ number : UInt32) -> Void)? = nil
+    var selectCardBlock : ((_ role : RoleType, _ number : Int) -> Void)? = nil
+    
+    var chooseCardNumberBlock : ((_ number : UInt32) -> Void)? = nil
 
     var conformBlock : ((_ choosenNumber : UInt32, _ realNumber : UInt32) -> Void)? = nil
     
@@ -166,7 +170,7 @@ class SocketClient: NSObject {
         if roomCheckTimer == nil {
             roomCheckTimer = DispatchSource.makeTimerSource(queue: socketQueue)
             
-            roomCheckTimer?.scheduleRepeating(deadline: .now() + roomCheckTime, interval: roomCheckTime)
+            roomCheckTimer?.schedule(deadline: .now() + roomCheckTime, repeating: roomCheckTime)
             roomCheckTimer?.setEventHandler {
                 let time = Int64(Date().timeIntervalSince1970)
                 var newrooms = [Room]()
@@ -212,6 +216,15 @@ class SocketClient: NSObject {
             allArr[Int(t)] = allArr.last!
             allArr.removeLast()
         }
+        for item in allArr {
+            if item % 2 == 1 {
+                whiteArr.append(item)
+            } else {
+                blackArr.append(item)
+            }
+        }
+        print("white = \(whiteArr)")
+        print("black = \(blackArr)")
         return result
     }
     
@@ -230,34 +243,51 @@ class SocketClient: NSObject {
         sendTcp(dic: dic)
         turnChangeBlock?()
         
-        if role == .creator {
-            sendCard()
-        }
+//        if role == .creator {
+//            sendCard()
+//        }
     }
     
     func isYourTurn() -> Bool {
         return self.turnRole == self.role
     }
     
-    func sendCard() {
-        if allArr.count > 0 {
-            let t = arc4random() % UInt32(allArr.count)
-            let number = allArr[Int(t)]
-            allArr.remove(at: Int(t))
-            
-            var dic = [String:Any]()
-            dic["title"] = "sendCard"
-            if isYourTurn() {
-                dic["role"] = RoleType.creator.rawValue
-            } else {
-                dic["role"] = RoleType.player.rawValue
-            }
-            dic["number"] = number
-            sendTcp(dic: dic)
-
-            sendCardBlock?(RoleType(rawValue: dic["role"] as! Int)!, Int(number))
-        }
+    func randomCard(color : Bool) {
         
+        if color {
+//            black
+            if blackArr.count > 0 {
+                let t = arc4random() % UInt32(blackArr.count)
+                let number = blackArr[Int(t)]
+                blackArr.remove(at: Int(t))
+                
+                var dic = [String:Any]()
+                dic["title"] = "selectCard"
+                dic["role"] = self.role.rawValue
+                dic["number"] = number
+                dic["blackArr"] = blackArr
+                dic["whiteArr"] = whiteArr
+                sendTcp(dic: dic)
+                
+                selectCardBlock?(RoleType(rawValue: dic["role"] as! Int)!, Int(number))
+            }
+        } else {
+            if whiteArr.count > 0 {
+                let t = arc4random() % UInt32(whiteArr.count)
+                let number = whiteArr[Int(t)]
+                whiteArr.remove(at: Int(t))
+                
+                var dic = [String:Any]()
+                dic["title"] = "selectCard"
+                dic["role"] = self.role.rawValue
+                dic["number"] = number
+                dic["blackArr"] = blackArr
+                dic["whiteArr"] = whiteArr
+                sendTcp(dic: dic)
+                
+                selectCardBlock?(RoleType(rawValue: dic["role"] as! Int)!, Int(number))
+            }
+        }
     }
     
     func chooseChad(number : UInt32) {
@@ -283,9 +313,9 @@ class SocketClient: NSObject {
         }
         turnChangeBlock?()
         
-        if role == .creator {
-            sendCard()
-        }
+//        if role == .creator {
+//            sendCard()
+//        }
     }
 }
 
@@ -425,17 +455,20 @@ extension SocketClient : GCDAsyncSocketDelegate {
                         let arr = self.randomInitData()
                         var creatorArr = [UInt32]()
                         var playerArr = [UInt32]()
-                        for index in 0...3 {
-                            creatorArr.append(arr[index])
-                        }
-                        for index in 4...7 {
-                            playerArr.append(arr[index])
+                        for index in 0...7 {
+                       
+                            if index % 2 == 1 {
+                                creatorArr.append(arr[index])
+                            } else {
+                                playerArr.append(arr[index])
+                            }
                         }
                         
                         var dic = [String:Any]()
                         dic["title"] = "initData"
                         dic["creatorArr"] = creatorArr
                         dic["playerArr"] = playerArr
+                        dic["allArr"] = allArr
                         dic["step"] = self.steps.count
                         sendTcp(dic: dic)
                         self.dataInitedBlock?(creatorArr, playerArr)
@@ -447,6 +480,16 @@ extension SocketClient : GCDAsyncSocketDelegate {
             } else if dic["title"] as! String == "initData" {
                 let creatorArr = dic["creatorArr"] as! [UInt32]
                 let playerArr = dic["playerArr"] as! [UInt32]
+                self.allArr = dic["allArr"] as! [UInt32]
+                for item in self.allArr {
+                    if item % 2 == 1 {
+                        whiteArr.append(item)
+                    } else {
+                        blackArr.append(item)
+                    }
+                }
+                print("white = \(whiteArr)")
+                print("black = \(blackArr)")
                 self.dataInitedBlock?(creatorArr, playerArr)
                 self.steps.append(dic)
             } else if dic["title"] as! String == "startTurn" {
@@ -462,9 +505,15 @@ extension SocketClient : GCDAsyncSocketDelegate {
                 let role = dic["role"] as! RoleType.RawValue
                 let number = dic["number"] as! Int
                 sendCardBlock?(RoleType(rawValue: role)!, number)
+            } else if dic["title"] as! String == "selectCard" {
+                let role = dic["role"] as! RoleType.RawValue
+                let number = dic["number"] as! Int
+                self.blackArr = dic["blackArr"] as! [UInt32]
+                self.whiteArr = dic["whiteArr"] as! [UInt32]
+                selectCardBlock?(RoleType(rawValue: role)!, number)
             } else if dic["title"] as! String == "chooseCard" {
                 let number = dic["number"] as! UInt32
-                chooseCardBlock?(number)
+                chooseCardNumberBlock?(number)
             } else if dic["title"] as! String == "conformResult" {
                 let choosenNumber = dic["choosenNumber"] as! UInt32
                 let realNumber = dic["realNumber"] as! UInt32
